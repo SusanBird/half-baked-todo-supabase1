@@ -21,7 +21,9 @@ todoForm.addEventListener('submit', async (e) => {
     // on submit, create a todo, reset the form, and display the todos
     const data = new FormData(todoForm);
 
-    await alert(data.get('item'));
+    await createTodo({
+        item: data.get('item'),
+    });
 
     todoForm.reset();
 
@@ -43,11 +45,11 @@ async function displayTodos() {
     for (let todoItem of todoList) {
         const todoItemEl = document.createElement('p');
 
-        todoItemEl.classList.add('todo-item')
+        todoItemEl.classList.add('todo-item');
         todoItemEl.textContent = `${todoItem.todo}`;
 
         if (todoItem.complete) {
-            todoItemEl.classList.add('complete')
+            todoItemEl.classList.add('complete');
         } else {
             todoItemEl.addEventListener('click', async () => {
 
@@ -55,6 +57,8 @@ async function displayTodos() {
     
                 displayTodos();
             });
+        }
+    } 
 }
 
 // add an on load listener that fetches and displays todos on load
@@ -66,6 +70,8 @@ logoutButton.addEventListener('click', () => {
 
 deleteButton.addEventListener('click', async () => {
     // delete all todos
+    await deleteAllTodos();
 
     // then refetch and display the updated list of todos
+    await displayTodos();
 });

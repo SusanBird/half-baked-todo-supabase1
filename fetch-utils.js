@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 const SUPABASE_URL = 'https://gxwgjhfyrlwiqakdeamc.supabase.co';
 const SUPABASE_KEY =
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTYzNjQxMTMxMiwiZXhwIjoxOTUxOTg3MzEyfQ.PHekiwfLxT73qQsLklp0QFEfNx9NlmkssJFDnlvNIcA';
@@ -17,11 +18,11 @@ export async function deleteAllTodos() {
     // delete all todos for this user in supabase
     const user = getUser();
 
-    console.log(user)
+    console.log(user);
     const response = await client
         .from('todos')
         .delete()
-        .match({ user_id: user.id })
+        .match({ user_id: user.id });
 
     return checkError(response);
 }
@@ -56,12 +57,12 @@ export function checkAuth() {
 }
 
 export function redirectIfLoggedIn() {
-    if (await getUser()) {
+    if (getUser()) {
         location.replace('./todos');
     }
 }
 
-export function signupUser(email, password) {
+export async function signupUser(email, password) {
     const response = await client.auth.signUp({ email, password });
 
     return response.user;
