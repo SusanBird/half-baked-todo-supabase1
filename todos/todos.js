@@ -21,22 +21,40 @@ todoForm.addEventListener('submit', async (e) => {
     // on submit, create a todo, reset the form, and display the todos
     const data = new FormData(todoForm);
 
-    alert(data.get('item'));
+    await alert(data.get('item'));
 
     todoForm.reset();
 
-    displayTodos();
+    await displayTodos();
 
 });
 
 async function displayTodos() {
+    toggleLoadingSpinner();
+
+    todosEl.textContent = '';
+
+    const todoList = await getTodos();
+
     // fetch the todos
-    
     // display the list of todos
-
     // be sure to give each todo an event listener
-
     // on click, complete that todo
+    for (let todoItem of todoList) {
+        const todoItemEl = document.createElement('p');
+
+        todoItemEl.classList.add('todo-item')
+        todoItemEl.textContent = `${todoItem.todo}`;
+
+        if (todoItem.complete) {
+            todoItemEl.classList.add('complete')
+        } else {
+            todoItemEl.addEventListener('click', async () => {
+
+                await completeTodo(todoItem.id);
+    
+                displayTodos();
+            });
 }
 
 // add an on load listener that fetches and displays todos on load
