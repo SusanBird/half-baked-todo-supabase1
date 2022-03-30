@@ -38,10 +38,6 @@ async function displayTodos() {
 
     const todoList = await getTodos();
 
-    // fetch the todos
-    // display the list of todos
-    // be sure to give each todo an event listener
-    // on click, complete that todo
     for (let todoItem of todoList) {
         const todoItemEl = document.createElement('p');
 
@@ -58,10 +54,11 @@ async function displayTodos() {
                 displayTodos();
             });
         }
+        todosEl.append(todoItemEl);
     } 
-}
 
-// add an on load listener that fetches and displays todos on load
+    toggleLoadingSpinner();
+}
 
 logoutButton.addEventListener('click', () => {
     logout();
@@ -69,9 +66,7 @@ logoutButton.addEventListener('click', () => {
 
 
 deleteButton.addEventListener('click', async () => {
-    // delete all todos
     await deleteAllTodos();
 
-    // then refetch and display the updated list of todos
     await displayTodos();
 });
