@@ -1,8 +1,8 @@
 import { 
     checkAuth, 
     createTodo, 
-    completeTodo,
-    getTodos,
+    // completeTodo,
+    // getTodos,
     logout,
     deleteAllTodos, 
 } from '../fetch-utils.js';
@@ -14,6 +14,8 @@ const todosEl = document.querySelector('.todos');
 const todoForm = document.querySelector('.todo-form');
 const logoutButton = document.querySelector('#logout');
 const deleteButton = document.querySelector('.delete-button');
+const loadingEl = document.querySelector('.loading-spinner');
+
 
 todoForm.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -36,26 +38,28 @@ async function displayTodos() {
 
     todosEl.textContent = '';
 
-    const todoList = await getTodos();
+    renderTodo();
 
-    for (let todoItem of todoList) {
-        const todoItemEl = document.createElement('p');
+    // const todoList = await getTodos();
 
-        todoItemEl.classList.add('todo-item');
-        todoItemEl.textContent = `${todoItem.todo}`;
+    // for (let todoItem of todoList) {
+    //     const todoItemEl = document.createElement('p');
 
-        if (todoItem.complete) {
-            todoItemEl.classList.add('complete');
-        } else {
-            todoItemEl.addEventListener('click', async () => {
+    //     todoItemEl.classList.add('todo-item');
+    //     todoItemEl.textContent = `${todoItem.todo}`;
 
-                await completeTodo(todoItem.id);
+    //     if (todoItem.complete) {
+    //         todoItemEl.classList.add('complete');
+    //     } else {
+    //         todoItemEl.addEventListener('click', async () => {
+
+    //             await completeTodo(todoItem.id);
     
-                displayTodos();
-            });
-        }
-        todosEl.append(todoItemEl);
-    } 
+    //             displayTodos();
+    //         });
+    //     }
+    //     todosEl.append(todoItemEl);
+    // } 
 
     toggleLoadingSpinner();
 }
@@ -70,3 +74,7 @@ deleteButton.addEventListener('click', async () => {
 
     await displayTodos();
 });
+
+function toggleLoadingSpinner() {
+    loadingEl.classList.toggle('invisible');
+}
