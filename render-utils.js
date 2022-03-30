@@ -16,7 +16,7 @@ export async function renderTodo() {
 
 //     // add the 'todo' css class no matter what
 
-//     // put the todo's text into the p tag
+//     // put the todo's text into the p tag()
 
 //     // append stuff
 
