@@ -1,8 +1,8 @@
 import { 
     checkAuth, 
     createTodo, 
-    completeTodo,
-    getTodos,
+    // completeTodo,
+    // getTodos,
     logout,
     deleteAllTodos, 
 } from '../fetch-utils.js';
@@ -14,30 +14,71 @@ const todosEl = document.querySelector('.todos');
 const todoForm = document.querySelector('.todo-form');
 const logoutButton = document.querySelector('#logout');
 const deleteButton = document.querySelector('.delete-button');
+const loadingEl = document.querySelector('.loading-spinner');
 
-todoForm.addEventListener('submit', async(e) => {
+
+todoForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
     // on submit, create a todo, reset the form, and display the todos
+    const data = new FormData(todoForm);
+
+    await createTodo({
+        item: data.get('todo'),
+    });
+
+    todoForm.reset();
+
+    await displayTodos();
+
 });
 
 async function displayTodos() {
-    // fetch the todos
+    toggleLoadingSpinner();
+
+    todosEl.textContent = '';
+
+    renderTodo();
+
+    // const todoList = await getTodos();
+
+    // for (let todoItem of todoList) {
+    //     const todoItemEl = document.createElement('p');
+
+    //     todoItemEl.classList.add('todo-item');
+    //     todoItemEl.textContent = `${todoItem.todo}`;
+
+    //     if (todoItem.complete) {
+    //         todoItemEl.classList.add('complete');
+    //     } else {
+    //         todoItemEl.addEventListener('click', async () => {
+
+    //             await completeTodo(todoItem.id);
     
-    // display the list of todos
+    //             displayTodos();
+    //         });
+    //     }
+    //     todosEl.append(todoItemEl);
+    // } 
 
-    // be sure to give each todo an event listener
-
-    // on click, complete that todo
+    toggleLoadingSpinner();
 }
-
-// add an on load listener that fetches and displays todos on load
 
 logoutButton.addEventListener('click', () => {
     logout();
 });
 
 
-deleteButton.addEventListener('click', async() => {
-    // delete all todos
+deleteButton.addEventListener('click', async () => {
+    await deleteAllTodos();
 
-    // then refetch and display the updated list of todos
+    await displayTodos();
+});
+
+function toggleLoadingSpinner() {
+    loadingEl.classList.toggle('invisible');
+}
+
+window.addEventListener('load', () => {
+    displayTodos();
 });
