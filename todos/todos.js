@@ -24,7 +24,7 @@ todoForm.addEventListener('submit', async (e) => {
     const data = new FormData(todoForm);
 
     await createTodo({
-        item: data.get('item'),
+        item: data.get('todo'),
     });
 
     todoForm.reset();
@@ -78,3 +78,7 @@ deleteButton.addEventListener('click', async () => {
 function toggleLoadingSpinner() {
     loadingEl.classList.toggle('invisible');
 }
+
+window.addEventListener('load', () => {
+    displayTodos();
+});
